@@ -1,17 +1,14 @@
 package org.example;
 
 public class Tile {
-    private boolean _mine = false;
+    private final String TAG = "TILE";
+    private final boolean _mine;
     private boolean _flag = false;
-    private boolean _exploded = false;
     private int _danger = -1;
-
 
     public Tile(boolean mine){
         _mine = mine;
     }
-
-    public Tile(){}
 
     public void setDanger(int danger) throws IllegalArgumentException {
         if(danger > 9 || danger < 0){
@@ -29,6 +26,18 @@ public class Tile {
         return _mine;
     }
 
+    public String draw(){
+        if(_danger == 0)
+            return "-";
+
+        if(_danger > 0)
+            return Integer.toString(_danger);
+
+        if(_flag)
+            return "F";
+
+        return "#";
+    }
 
     public void setFlag(boolean flag){
         _flag = flag;
@@ -39,9 +48,5 @@ public class Tile {
     }
 
     // TODO: Refactor this, this is just a placeholder
-    public void onReveal(){
-        if(_mine && !_flag){
-            _exploded = true;
-        }
-    }
+    public void onReveal(){}
 }
