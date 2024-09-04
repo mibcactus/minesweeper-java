@@ -1,4 +1,4 @@
-package org.example;
+package org.minesweeper;
 
 import java.io.IOException;
 

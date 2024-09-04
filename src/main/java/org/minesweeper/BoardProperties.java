@@ -1,4 +1,4 @@
-package org.example;
+package org.minesweeper;
 
 public class BoardProperties {
     int _width, _height, _mines;

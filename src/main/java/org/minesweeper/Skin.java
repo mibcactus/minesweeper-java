@@ -1,4 +1,4 @@
-package org.example;
+package org.minesweeper;
 
 public class Skin{
     public String clear(){

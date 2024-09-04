@@ -1,4 +1,4 @@
-package org.example;
+package org.minesweeper;
 
 public class Tile {
     private final String TAG = "TILE";

@@ -1,4 +1,4 @@
-package org.example;
+package org.minesweeper;
 
 public class SkinEmoji extends Skin{
 
