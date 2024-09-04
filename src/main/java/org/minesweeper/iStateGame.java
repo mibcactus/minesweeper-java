@@ -23,6 +23,9 @@ public class iStateGame extends iState{
         if(Util.isQuit(args[0])){
             owner.stateMachine.quit();
         }
+
+        _board.updateTiles();
+        _board.printBoard();
     }
 
     @Override

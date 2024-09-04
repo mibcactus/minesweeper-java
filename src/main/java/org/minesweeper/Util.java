@@ -5,12 +5,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class Util {
-    public static boolean DEBUG = false;
+    public static boolean DEBUG = !false;
     public static final int MAX_SIDE = 25;
     public static final int MIN_SIDE = 5;
     public static final int MIN_MINES = 5;
 
-    public static Skin skin = new SkinEmoji();
+    public static Skin skin = new Skin();
 
     public static final String startMenu = """ 
 Hi! Welcome to Minesweeper. Please select the following options:

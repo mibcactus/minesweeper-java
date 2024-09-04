@@ -11,8 +11,8 @@ public class Tile {
     }
 
     public void setDanger(int danger) throws IllegalArgumentException {
-        if(danger > 9 || danger < 0){
-            throw new IllegalArgumentException("Danger value entered must be between 0 and 9 inclusive!!!!! >:(");
+        if(danger > 8 || danger < 0){
+            throw new IllegalArgumentException("Danger value entered must be between 0 and 8 inclusive!!!!! >:(");
         }
         _danger = danger;
     }
@@ -24,6 +24,9 @@ public class Tile {
 
     public boolean hasMine(){
         return _mine;
+    }
+    public int hasMineInt(){
+        return _mine ? 1 : 0;
     }
 
     public String draw(){
