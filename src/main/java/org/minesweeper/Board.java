@@ -38,74 +38,46 @@ public class Board {
     }
 
     public void checkSurroundingTiles(int x, int y){
-        int h = _properties._height - 1, w = _properties._width - 1;
-        if(x > 0 && y > 0 && x < w && y < h){
-            int danger = 0;
-            for (int i = 0; i < 8; i++) {
-                int ii = y+ _fullLookup[i][1],jj = x + _fullLookup[i][0];
-                Tile t = board.get(ii).get(jj);
-                String debug = String.format("Checking tile %d, %d, hasmine = %b\n", ii, jj, t.hasMine());
-                Util.debugMessage(TAG, debug);
-                if(t.hasMine()){
-                    danger+=1;
-                }
-            }
-            board.get(y).get(x).setDanger(danger);
-        } else if (x == w && y == h){ //bottom right corner
-            Tile t = board.get(h).get(w);
-            t.setDanger((board.get(h).get(w-1).hasMineInt()) + (board.get(h-1).get(w).hasMineInt()) + (board.get(h-1).get(w-1).hasMineInt()));
-        } else if (x == 0 && y == h){ // bottom left corner
-            Tile t = board.get(h).get(0);
-            t.setDanger((board.get(h).get(1).hasMineInt()) + (board.get(h-1).get(1).hasMineInt()) + (board.get(h-1).get(0).hasMineInt()));
-        } else if (x == 0 && y == 0){ // top left corner
-            Tile t = board.get(0).get(0);
-            t.setDanger((board.get(0).get(1).hasMineInt()) + (board.get(1).get(1).hasMineInt()) + (board.get(1).get(0).hasMineInt()));
-        } else if (x == w && y == 0){ // top right corner
-            Tile t = board.get(0).get(w);
-            t.setDanger((board.get(0).get(w-1).hasMineInt()) + (board.get(1).get(w-1).hasMineInt()) + (board.get(1).get(w).hasMineInt()));
-        } else if (x == 0) { //left edge
-            for (int i = 1; i < board.get(0).size()-1; i++) {
-                Tile tile = board.get(i).get(0);
-                int danger = 0;
-                // same col
-                danger += board.get(i-1).get(0).hasMineInt() + board.get(i+1).get(0).hasMineInt();
-                // next col
-                danger += board.get(i-1).get(1).hasMineInt() + board.get(i-1).get(1).hasMineInt() + board.get(i+1).get(1).hasMineInt();
-                tile.setDanger(danger);
-            }
-        } else if (x == w) { // right edge
-            for (int i = 1; i < board.get(h).size()-1; i++) {
-                Tile tile = board.get(i).get(w);
-                int danger = 0;
-                // same col
-                danger += board.get(i-1).get(0).hasMineInt() + board.get(i+1).get(0).hasMineInt();
-                // next col
-                danger += board.get(i-1).get(1).hasMineInt() + board.get(i-1).get(1).hasMineInt() + board.get(i+1).get(1).hasMineInt();
-                tile.setDanger(danger);
-            }
-        } else if (y == 0) { // top edge
-            for (int i = 1; i < board.get(0).size()-1; i++) {
-                Tile tile = board.get(0).get(i);
-                int danger = 0;
-                // same row
-                danger += board.get(0).get(i-1).hasMineInt() + board.get(0).get(i+1).hasMineInt();
-                // below the tile
-                danger += board.get(1).get(i-1).hasMineInt() + board.get(1).get(i).hasMineInt() + board.get(1).get(i+1).hasMineInt();
-                tile.setDanger(danger);
-            }
-        } else if (y == h) { // bottom edge
-            for (int i = 1; i < board.get(h).size()-1; i++) {
-                Tile tile = board.get(h).get(i);
-                int danger = 0;
-                // same row
-                danger += board.get(h).get(i-1).hasMineInt() + board.get(h).get(i+1).hasMineInt();
-                // above the tile
-                danger += board.get(h-1).get(i-1).hasMineInt() + board.get(h-1).get(i).hasMineInt() + board.get(h-1).get(i+1).hasMineInt();
-                tile.setDanger(danger);
-            }
+
+        Tile tile = board.get(y).get(x);
+        if(tile.getDanger() != -1){
+            return;
         }
+        int h = _properties._height - 1, w = _properties._width - 1;
+        int danger = 0;
+        if(x > 0 && y > 0 && x < w && y < h){
+            for (int i = 0; i < 8; i++) {
+                danger += getMineInt(x + _fullLookup[i][0], y + _fullLookup[i][1]);
+            }
+            //board.get(y).get(x).setDanger(danger);
+        } else if (x == w && y == h){ //bottom right corner
+            danger = getMineInt(x-1, y) + getMineInt(x, y-1) + getMineInt(x-1, y-1);
+        } else if (x == 0 && y == h){ // bottom left corner
+            danger = getMineInt(x, y-1) + getMineInt(x+1, y-1) + getMineInt(x+1, y);
+        } else if (x == 0 && y == 0){ // top left corner
+            danger = getMineInt(x, y+1) + getMineInt(x+1, y+1) + getMineInt(x+1, y);
+        } else if (x == w && y == 0){ // top right corner
+            danger = getMineInt(x, y+1) + getMineInt(x-1, y+1) + getMineInt(x-1, y);
+        } else if (x == 0) { //left edge
+            danger += getMineInt(x, y-1) + getMineInt(x, y+1);
+            danger += getMineInt(x+1, y-1) + getMineInt(x+1, y) + getMineInt(x+1, y+1);
+        } else if (x == w) { // right edge
+            danger += getMineInt(x, y-1) + getMineInt(x, y+1);
+            danger += getMineInt(x-1, y-1) + getMineInt(x-1, y) + getMineInt(x-1, y+1);
+        } else if (y == 0) { // top edge
+            danger += getMineInt(x-1, y) + getMineInt(x+1, y);
+            danger += getMineInt(x-1, y+1) + getMineInt(x, y+1) + getMineInt(x+1, y+1);
+        } else if (y == h) { // bottom edge
+            danger += getMineInt(x-1, y) + getMineInt(x+1, y);
+            danger += getMineInt(x-1, y-1) + getMineInt(x, y-1) + getMineInt(x+1, y-1);
+        }
+
+        board.get(y).get(x).setDanger(danger);
     }
 
+    public int getMineInt(int x, int y){
+        return board.get(y).get(x).hasMine() ? 1 : 0;
+    }
 
 
     public void printBoard(){
@@ -118,7 +90,6 @@ public class Board {
         for (int i = 0; i < board.size(); i++) {
             str = new StringBuilder(String.format("%2s:", i+1));
             for (int j = 0; j < board.get(i).size(); j++) {
-                //String c = board.get(i).get(j).hasMine() ? "M" : "-";
                 String c = board.get(i).get(j).draw();
                 str.append(String.format("  %2s", c));
             }

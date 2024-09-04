@@ -14,4 +14,6 @@ public class Skin{
     public String number(int danger){
         return Integer.toString(danger);
     }
+
+    public String mine(){return "M";}
 }

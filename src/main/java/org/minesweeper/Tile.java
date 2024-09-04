@@ -25,11 +25,11 @@ public class Tile {
     public boolean hasMine(){
         return _mine;
     }
-    public int hasMineInt(){
-        return _mine ? 1 : 0;
-    }
 
     public String draw(){
+        if(_mine)
+            return Util.skin.mine();
+
         if(_danger == 0)
             return Util.skin.clear();
             //return "-";
