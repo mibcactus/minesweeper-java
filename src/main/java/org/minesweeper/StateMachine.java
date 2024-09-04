@@ -5,20 +5,21 @@ import java.io.IOException;
 public class StateMachine {
     iState currentState;
 
-    public StateMachine(){}
+    public StateMachine() {
+    }
 
-    public void finishMachine(){
-        if(currentState != null)
+    public void finishMachine() {
+        if (currentState != null)
             currentState.exit();
     }
 
-    public void quit(){
+    public void quit() {
         finishMachine();
         System.exit(0);
     }
 
-    public void changeState(iState newState){
-        if(currentState != null){
+    public void changeState(iState newState) {
+        if (currentState != null) {
             currentState.exit();
         }
         currentState = newState;

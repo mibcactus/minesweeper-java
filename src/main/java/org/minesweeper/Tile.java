@@ -6,54 +6,62 @@ public class Tile {
     private boolean _flag = false;
     private int _danger = -1;
 
-    public Tile(boolean mine){
+    public Tile(boolean mine) {
         _mine = mine;
     }
 
-    public void setDanger(int danger) throws IllegalArgumentException {
-        if(danger > 8 || danger < 0){
-            throw new IllegalArgumentException("Danger value entered must be between 0 and 8 inclusive!!!!! >:(");
-        }
-        _danger = danger;
+    public boolean getMine() {
+        return _mine;
     }
 
-    public int getDanger(){
+    public void setDanger(int danger) throws IllegalArgumentException {
+        if (danger > 8 || danger < 0) {
+            throw new IllegalArgumentException(TAG + ": Danger value entered must be between 0 and 8 inclusive!!!!! >:(");
+        }
+        _danger = danger;
+        _flag = false;
+    }
+
+    public int getDanger() {
         return _danger;
     }
 
 
-    public boolean hasMine(){
+    public boolean hasMine() {
         return _mine;
     }
 
-    public String draw(){
-        if(_mine)
-            return Util.skin.mine();
+    public boolean hasFlag() {
+        return _flag;
+    }
 
-        if(_danger == 0)
+    public String draw() {
+        if (_danger == 0)
             return Util.skin.clear();
-            //return "-";
+        //return "-";
 
-        if(_danger > 0)
+        if (_danger > 0)
             return Util.skin.number(_danger);
-            //return Integer.toString(_danger);
+        //return Integer.toString(_danger);
 
-        if(_flag)
+        if (_flag)
             return Util.skin.flag();
-            //return "F";
+
+        if(_mine){
+            return Util.skin.mine();
+        }
 
         return Util.skin.hidden();
         //return "#";
     }
 
-    public void setFlag(boolean flag){
-        _flag = flag;
+    public void updateFlag() {
+        _flag = !_flag;
     }
 
-    public boolean getFlag(){
-        return _flag;
+    public void setFlag(boolean flag) {
+        if (_danger == -1)
+            _flag = flag;
     }
 
-    // TODO: Refactor this, this is just a placeholder
-    public void onReveal(){}
 }

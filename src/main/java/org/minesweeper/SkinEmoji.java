@@ -1,24 +1,24 @@
 package org.minesweeper;
 
-public class SkinEmoji extends Skin{
+public class SkinEmoji extends Skin {
 
     @Override
-    public String clear(){
+    public String clear() {
         return "🟩";
     }
 
     @Override
-    public String flag(){
+    public String flag() {
         return "⛳";
     }
 
     @Override
-    public String hidden(){
+    public String hidden() {
         return "⬛";
     }
 
     @Override
-    public String number(int danger){
+    public String number(int danger) {
         return switch (danger) {
             case 1 -> "1️⃣";
             case 2 -> "2️⃣";

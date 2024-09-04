@@ -6,7 +6,6 @@
 - [x] start menu state
 - [ ] game state
 - [ ] settings state
-- [ ] abstract end state
 - [ ] win state
 - [ ] lose state
 
@@ -16,24 +15,26 @@
 - [ ] Implement random game
 
 ### game page
-- [ ] flag x y
+- [x] flag x y
 - [ ] step x y
 - [ ] restart
 - [ ] help
 
 ### ending pages
-- [ ] make a base class
+- [x] make a base class
 - [ ] move to settings
 - [ ] move to menu
-- [ ] quit game
-- [ ] new game
+- [x] quit game
 
 ### game algorithms
 - [x] find number surrounding mines
-- [ ] ensure it only runs once
-- [ ] check if a square is already flagged
-- [ ] update if a square to is/isn't flagged
+- [x] ensure it only runs once
+- [x] check if a square can be flagged
+- [x] update if a square to is/isn't flagged
 - [ ] check if all squares have been revealed/flagged (flagsleft?)
+
+### tests
+
 
  ### extras
 - [ ] custom characters

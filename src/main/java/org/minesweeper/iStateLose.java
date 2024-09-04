@@ -2,37 +2,35 @@ package org.minesweeper;
 
 import java.io.IOException;
 
-public class iStateMenu extends iState {
-
-    public iStateMenu(Game game) {
+public class iStateLose extends iState{
+    public iStateLose(Game game) {
         super(game);
     }
 
     @Override
-    public void enter() {
-        System.out.println(Util.startMenu);
+    void enter() {
+        System.out.println("Oh no! You got blown up. Sad!");
     }
 
     @Override
-    public void execute() throws IOException {
+    void execute() throws IOException {
         String input = Util.parseStringInput(">> ");
         if (input.equalsIgnoreCase("s") || input.equalsIgnoreCase("settings")) {
             owner.stateMachine.changeState(new iStateSettings(owner));
-        } else if (input.equalsIgnoreCase("p") || input.equalsIgnoreCase("play")) {
-            owner.stateMachine.changeState(new iStateGame(owner));
+        } else if (input.equalsIgnoreCase("m") || input.equalsIgnoreCase("menu")) {
+            owner.stateMachine.changeState(new iStateMenu(owner));
         } else if (Util.isQuit(input)) {
             owner.stateMachine.quit();
         }
+    }
+
+    @Override
+    void exit() {
 
     }
 
     @Override
-    public void exit() {
-
-    }
-
-    @Override
-    public String name() {
-        return "MENU";
+    String name() {
+        return "END";
     }
 }

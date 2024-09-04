@@ -6,14 +6,14 @@ public class Game {
     StateMachine stateMachine;
     BoardProperties properties;
 
-    public Game(){
-        properties = new BoardProperties(10,10, 14);
+    public Game() {
+        properties = new BoardProperties(10, 10, 14);
         stateMachine = new StateMachine();
         stateMachine.changeState(new iStateMenu(this));
     }
 
     public void run() throws IOException {
-        while(true) {
+        while (true) {
             stateMachine.executeMachine();
         }
     }

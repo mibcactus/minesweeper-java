@@ -1,19 +1,23 @@
 package org.minesweeper;
 
-public class Skin{
-    public String clear(){
+public class Skin {
+    public String clear() {
         return "-";
     }
-    public String flag(){
+
+    public String flag() {
         return "F";
     }
-    public String hidden(){
+
+    public String hidden() {
         return "#";
     }
 
-    public String number(int danger){
+    public String number(int danger) {
         return Integer.toString(danger);
     }
 
-    public String mine(){return "M";}
+    public String mine() {
+        return "M";
+    }
 }
