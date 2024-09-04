@@ -13,8 +13,9 @@ public class Game {
     }
 
     public void run() throws IOException {
-        while(true)
+        while(true) {
             stateMachine.executeMachine();
+        }
     }
 
 }
