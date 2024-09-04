@@ -28,15 +28,19 @@ public class Tile {
 
     public String draw(){
         if(_danger == 0)
-            return "-";
+            return Util.skin.clear();
+            //return "-";
 
         if(_danger > 0)
-            return Integer.toString(_danger);
+            return Util.skin.number(_danger);
+            //return Integer.toString(_danger);
 
         if(_flag)
-            return "F";
+            return Util.skin.flag();
+            //return "F";
 
-        return "#";
+        return Util.skin.hidden();
+        //return "#";
     }
 
     public void setFlag(boolean flag){

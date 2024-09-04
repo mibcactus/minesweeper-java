@@ -1,6 +1,14 @@
 # minesweeper
 
-## to-do:
+### structure
+- [x] implement stateMachine
+- [x] state interface
+- [x] start menu state
+- [ ] game state
+- [ ] settings state
+- [ ] abstract end state
+- [ ] win state
+- [ ] lose state
 
 ### Settings page
 - [ ] Implement changing size
@@ -25,6 +33,7 @@
 - [ ] ensure it only runs once
 - [ ] check if a square is already flagged
 - [ ] update if a square to is/isn't flagged
+- [ ] check if all squares have been revealed/flagged (flagsleft?)
 
  ### extras
 - [ ] custom characters

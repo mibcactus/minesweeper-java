@@ -31,8 +31,8 @@ public class Board {
         for (int i = 0; i < board.size(); i++) {
             str = new StringBuilder(String.format("%2s:", i+1));
             for (int j = 0; j < board.get(i).size(); j++) {
-                //String c = board.get(i).get(j).hasMine() ? "M" : "-";
-                String c = board.get(i).get(j).draw();
+                String c = board.get(i).get(j).hasMine() ? "M" : "-";
+                //String c = board.get(i).get(j).draw();
                 str.append(String.format("  %2s", c));
             }
 

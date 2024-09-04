@@ -10,6 +10,8 @@ public class Util {
     public static final int MIN_SIDE = 5;
     public static final int MIN_MINES = 5;
 
+    public static Skin skin = new SkinEmoji();
+
     public static final String startMenu = """ 
 Hi! Welcome to Minesweeper. Please select the following options:
     s: settings

@@ -23,8 +23,6 @@ public class iStateGame extends iState{
         if(Util.isQuit(args[0])){
             owner.stateMachine.quit();
         }
-
-
     }
 
     @Override
