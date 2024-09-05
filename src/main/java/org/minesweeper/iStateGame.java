@@ -25,6 +25,9 @@ public class iStateGame extends iState {
 
     @Override
     void execute() throws IOException {
+
+
+
         String input = Util.parseStringInput(">> ");
         String[] args = input.split(" ");
         if (Util.isQuit(args[0])) {
@@ -47,13 +50,18 @@ public class iStateGame extends iState {
             System.out.println("Please enter one of the commands :) Thank you");
         }
 
-
         _board.printBoard();
+
+        if(GameData.gameOver){
+            if(GameData.isWin)
+                owner.stateMachine.changeState(new iStateWin(owner));
+            else
+                owner.stateMachine.changeState(new iStateLose(owner));
+        }
     }
 
     @Override
     void exit() {
-        System.out.println("Thank you for playing! :)");
     }
 
     @Override

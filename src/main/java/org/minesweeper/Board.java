@@ -65,7 +65,8 @@ public class Board {
         }
 
         if(getTile(x, y).hasMine()){
-            gameOver = true;
+            GameData.gameOver = true;
+            //System.out.println("You got blown up!");
             return;
         }
 
@@ -73,8 +74,6 @@ public class Board {
         //  check those as well
         checkSurroundingTiles(x, y);
     }
-
-    public boolean gameOver = false;
 
 
     public void checkSurroundingTiles(int x, int y) {

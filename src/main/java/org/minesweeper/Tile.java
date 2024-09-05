@@ -36,6 +36,14 @@ public class Tile {
     }
 
     public String draw() {
+        if(GameData.gameOver){
+            if(_mine){
+                return Util.skin.mine();
+            } else {
+                return Util.skin.clear();
+            }
+        }
+
         if (_danger == 0)
             return Util.skin.clear();
         //return "-";
@@ -46,10 +54,6 @@ public class Tile {
 
         if (_flag)
             return Util.skin.flag();
-
-        if(_mine){
-            return Util.skin.mine();
-        }
 
         return Util.skin.hidden();
         //return "#";

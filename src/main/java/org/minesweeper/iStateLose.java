@@ -3,6 +3,12 @@ package org.minesweeper;
 import java.io.IOException;
 
 public class iStateLose extends iState{
+
+    String menu = """
+s: settings
+m: menu
+q: quit""";
+
     public iStateLose(Game game) {
         super(game);
     }
@@ -14,6 +20,7 @@ public class iStateLose extends iState{
 
     @Override
     void execute() throws IOException {
+        System.out.println(menu);
         String input = Util.parseStringInput(">> ");
         if (input.equalsIgnoreCase("s") || input.equalsIgnoreCase("settings")) {
             owner.stateMachine.changeState(new iStateSettings(owner));
