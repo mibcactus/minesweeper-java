@@ -18,14 +18,8 @@ public class Util {
                 p: play
                 q: quit""";
 
-    public static final String settingsFormat = "Current settings: %2dx%2d, difficulty is %d";
-    public static final String settingsMenu = """
-            Options:
-                s: size x y
-                d: difficulty x
-                r: random board
-                f: finish
-                q: quit program""";
+
+
 
     public static final String helpFormat = "x and y may be any number between 1 and %d";
 
@@ -45,7 +39,9 @@ public class Util {
         return str.equalsIgnoreCase("q") || str.equalsIgnoreCase("quit");
     }
 
-    public static Integer[] argsToInteger(String[] args, int[] limit) {
+
+
+    public static Integer[] args2DToInteger(String[] args, int[] limit) {
         try {
             int x = Integer.parseInt(args[0]);
             int y = Integer.parseInt(args[1]);

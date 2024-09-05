@@ -12,11 +12,11 @@ public class iStateGame extends iState {
 
     public iStateGame(Game game) {
         super(game);
-        _board = new Board(owner.properties);
     }
 
     @Override
     void enter() {
+        _board = new Board(owner.properties);
         _board.generateBoard();
         _board.printBoard();
         System.out.println(_menu);
@@ -25,9 +25,6 @@ public class iStateGame extends iState {
 
     @Override
     void execute() throws IOException {
-
-
-
         String input = Util.parseStringInput(">> ");
         String[] args = input.split(" ");
         if (Util.isQuit(args[0])) {
@@ -36,13 +33,13 @@ public class iStateGame extends iState {
 
         if (args.length >= 3 && (args[0].equalsIgnoreCase("f") || args[0].equalsIgnoreCase("flag"))) {
             String[] args2 = {args[1], args[2]};
-            Integer[] nums = Util.argsToInteger(args2, _board.getSize());
+            Integer[] nums = Util.args2DToInteger(args2, _board.getSize());
             if (nums != null) {
                 _board.onFlag(nums[0] - 1, nums[1] - 1);
             }
         } else if (args.length >= 3 && (args[0].equalsIgnoreCase("s") || args[0].equalsIgnoreCase("step"))) {
             String[] args2 = {args[1], args[2]};
-            Integer[] nums = Util.argsToInteger(args2, _board.getSize());
+            Integer[] nums = Util.args2DToInteger(args2, _board.getSize());
             if (nums != null) {
                 _board.onStep(nums[0] - 1, nums[1] - 1);
             }
@@ -62,6 +59,7 @@ public class iStateGame extends iState {
 
     @Override
     void exit() {
+        GameData.reset();
     }
 
     @Override

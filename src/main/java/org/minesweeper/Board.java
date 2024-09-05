@@ -16,8 +16,6 @@ public class Board {
         _properties = properties;
     }
 
-
-
     public int[] getSize() {
         return new int[]{_properties.width, _properties.height};
     }
@@ -40,7 +38,6 @@ public class Board {
             return;
         }
 
-        //tile.updateFlag();
         getTile(x, y).updateFlag();
     }
 
@@ -54,13 +51,10 @@ public class Board {
         }
 
         if(getTile(x, y).hasMine()){
-            GameData.gameOver = true;
-            //System.out.println("You got blown up!");
+            GameData.setLose();
             return;
         }
 
-        // create list of surrounding non-mine tiles
-        //  check those as well
         checkSurroundingTiles(x, y);
     }
 
