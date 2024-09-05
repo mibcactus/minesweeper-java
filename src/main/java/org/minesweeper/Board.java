@@ -22,6 +22,7 @@ public class Board {
         return new int[]{_properties._width, _properties._height};
     }
 
+    /*
     public void revealEntireBoard() {
         for (int i = 0; i < board.size(); i++) { //height
             for (int j = 0; j < board.get(i).size(); j++) { //width
@@ -29,10 +30,12 @@ public class Board {
             }
         }
 
-    }
+    }*/
 
 
     public Tile getTile(int x, int y){
+        if(checkInputBounds(x, y))
+            return null;
         return board.get(y).get(x);
     }
 
@@ -66,6 +69,8 @@ public class Board {
             return;
         }
 
+        // create list of surrounding non-mine tiles
+        //  check those as well
         checkSurroundingTiles(x, y);
     }
 
@@ -73,41 +78,200 @@ public class Board {
 
 
     public void checkSurroundingTiles(int x, int y) {
-        Tile tile = board.get(y).get(x);
+
+        if(checkInputBounds(x,y)){
+            //System.out.println("Sorry, this isn't within bounds");
+            return;
+        }
+
+        //Tile tile = board.get(y).get(x);
+        /* move into input checking
         if (tile.getDanger() != -1) {
             System.out.println("That tile has already been revealed!!");
             return;
-        }
+        }*/
+        ArrayList<int[]> surrounding_tiles = new ArrayList<>();
         int h = _properties._height - 1, w = _properties._width - 1;
         int danger = 0;
         if (x > 0 && y > 0 && x < w && y < h) {
             for (int i = 0; i < 8; i++) {
-                danger += getMineInt(x + _fullLookup[i][0], y + _fullLookup[i][1]);
+                int tx = x + _fullLookup[i][0], ty = y + _fullLookup[i][1];
+                danger += getMineInt(tx, ty);
+                if(danger == 0){
+                    Tile t = getTile(tx, ty);
+                    if(t == null){
+                        String str = String.format("Tile at (%d, %d)", tx, ty);
+                        Util.debugMessage(TAG, str);
+                        return;
+                    }
+                    if(!t.hasMine() && t.getDanger() == -1){
+                        int[] coords = new int[]{tx, ty};
+                        surrounding_tiles.add(coords);
+                    }
+                }
             }
             //board.get(y).get(x).setDanger(danger);
         } else if (x == w && y == h) { //bottom right corner
             danger = getMineInt(x - 1, y) + getMineInt(x, y - 1) + getMineInt(x - 1, y - 1);
+            if(danger == 0){
+                if(!getTile(x - 1, y).hasMine() || getTile(x-1, y).getDanger() == -1){
+                    surrounding_tiles.add(new int[]{x-1, y});
+                }
+                if(!getTile(x - 1, y - 1).hasMine() || getTile(x-1, y).getDanger() == -1){
+                    surrounding_tiles.add(new int[]{x-1, y});
+                }
+                if(!getTile(x, y - 1).hasMine() || getTile(x-1, y).getDanger() == -1){
+                    surrounding_tiles.add(new int[]{x-1, y});
+                }
+            }
         } else if (x == 0 && y == h) { // bottom left corner
             danger = getMineInt(x, y - 1) + getMineInt(x + 1, y - 1) + getMineInt(x + 1, y);
+            if(danger == 0){
+                if(!getTile(x, y - 1).hasMine() || getTile(x, y - 1).getDanger() == -1){
+                    surrounding_tiles.add(new int[]{x-1, y});
+                }
+                if(!getTile(x + 1, y - 1).hasMine() || getTile(x+1, y-1).getDanger() == -1){
+                    surrounding_tiles.add(new int[]{x-1, y});
+                }
+                if(!getTile(x + 1, y).hasMine() || getTile(x+1, y).getDanger() == -1){
+                    surrounding_tiles.add(new int[]{x-1, y});
+                }
+            }
         } else if (x == 0 && y == 0) { // top left corner
             danger = getMineInt(x, y + 1) + getMineInt(x + 1, y + 1) + getMineInt(x + 1, y);
+            if(danger == 0){
+                if(!getTile(x, y + 1).hasMine() || getTile(x, y+1).getDanger() == -1){
+                    surrounding_tiles.add(new int[]{x-1, y});
+                }
+                if(!getTile(x + 1, y + 1).hasMine() || getTile(x+1, y+1).getDanger() == -1){
+                    surrounding_tiles.add(new int[]{x-1, y});
+                }
+                if(!getTile(x+1, y).hasMine() || getTile(x+1, y).getDanger() == -1){
+                    surrounding_tiles.add(new int[]{x-1, y});
+                }
+            }
         } else if (x == w && y == 0) { // top right corner
             danger = getMineInt(x, y + 1) + getMineInt(x - 1, y + 1) + getMineInt(x - 1, y);
+            // TODO: Put this bit into it's own function
+            if(danger == 0){
+                if(!getTile(x, y + 1).hasMine() || getTile(x, y+1).getDanger() == -1){
+                    surrounding_tiles.add(new int[]{x-1, y});
+                }
+                if(!getTile(x - 1, y + 1).hasMine() || getTile(x, y+1).getDanger() == -1){
+                    surrounding_tiles.add(new int[]{x-1, y});
+                }
+                if(!getTile(x-1, y).hasMine() || getTile(x-1, y).getDanger() == -1){
+                    surrounding_tiles.add(new int[]{x-1, y});
+                }
+            }
         } else if (x == 0) { //left edge
             danger += getMineInt(x, y - 1) + getMineInt(x, y + 1);
             danger += getMineInt(x + 1, y - 1) + getMineInt(x + 1, y) + getMineInt(x + 1, y + 1);
+
+            if(danger == 0){
+                if(!getTile(x, y - 1).hasMine() || getTile(x, y-1).getDanger() == -1){
+                    surrounding_tiles.add(new int[]{x-1, y});
+                }
+                if(!getTile(x, y + 1).hasMine() || getTile(x, y+1).getDanger() == -1){
+                    surrounding_tiles.add(new int[]{x-1, y});
+                }
+
+                if(!getTile(x+1, y-1).hasMine() || getTile(x+1, y-1).getDanger() == -1){
+                    surrounding_tiles.add(new int[]{x-1, y});
+                }
+
+                if(!getTile(x+1, y).hasMine() || getTile(x+1, y).getDanger() == -1){
+                    surrounding_tiles.add(new int[]{x-1, y});
+                }
+
+                if(!getTile(x+1, y+1).hasMine() || getTile(x+1, y+1).getDanger() == -1){
+                    surrounding_tiles.add(new int[]{x-1, y});
+                }
+            }
+
+
         } else if (x == w) { // right edge
             danger += getMineInt(x, y - 1) + getMineInt(x, y + 1);
             danger += getMineInt(x - 1, y - 1) + getMineInt(x - 1, y) + getMineInt(x - 1, y + 1);
+
+            if(danger == 0){
+                if(!getTile(x, y - 1).hasMine() || getTile(x, y-1).getDanger() == -1){
+                    surrounding_tiles.add(new int[]{x-1, y});
+                }
+                if(!getTile(x, y + 1).hasMine() || getTile(x, y+1).getDanger() == -1){
+                    surrounding_tiles.add(new int[]{x-1, y});
+                }
+
+                if(!getTile(x-1, y-1).hasMine() || getTile(x+1, y-1).getDanger() == -1){
+                    surrounding_tiles.add(new int[]{x-1, y});
+                }
+
+                if(!getTile(x-1, y).hasMine() || getTile(x+1, y).getDanger() == -1){
+                    surrounding_tiles.add(new int[]{x-1, y});
+                }
+
+                if(!getTile(x-1, y+1).hasMine() || getTile(x+1, y+1).getDanger() == -1){
+                    surrounding_tiles.add(new int[]{x-1, y});
+                }
+            }
         } else if (y == 0) { // top edge
             danger += getMineInt(x - 1, y) + getMineInt(x + 1, y);
             danger += getMineInt(x - 1, y + 1) + getMineInt(x, y + 1) + getMineInt(x + 1, y + 1);
+
+            if(danger == 0){
+                if(!getTile(x - 1, y).hasMine() || getTile(x-1, y).getDanger() == -1){
+                    surrounding_tiles.add(new int[]{x-1, y});
+                }
+                if(!getTile(x + 1, y).hasMine() || getTile(x+1, y).getDanger() == -1){
+                    surrounding_tiles.add(new int[]{x-1, y});
+                }
+
+                if(!getTile(x-1, y+1).hasMine() || getTile(x-1, y+1).getDanger() == -1){
+                    surrounding_tiles.add(new int[]{x-1, y});
+                }
+
+                if(!getTile(x, y+1).hasMine() || getTile(x, y+1).getDanger() == -1){
+                    surrounding_tiles.add(new int[]{x-1, y});
+                }
+
+                if(!getTile(x+1, y+1).hasMine() || getTile(x+1, y+1).getDanger() == -1){
+                    surrounding_tiles.add(new int[]{x-1, y});
+                }
+            }
         } else if (y == h) { // bottom edge
             danger += getMineInt(x - 1, y) + getMineInt(x + 1, y);
             danger += getMineInt(x - 1, y - 1) + getMineInt(x, y - 1) + getMineInt(x + 1, y - 1);
+
+            if(danger == 0){
+                if(!getTile(x - 1, y).hasMine() || getTile(x-1, y).getDanger() == -1){
+                    surrounding_tiles.add(new int[]{x-1, y});
+                }
+                if(!getTile(x + 1, y).hasMine() || getTile(x+1, y).getDanger() == -1){
+                    surrounding_tiles.add(new int[]{x-1, y});
+                }
+
+                if(!getTile(x-1, y-1).hasMine() || getTile(x-1, y-1).getDanger() == -1){
+                    surrounding_tiles.add(new int[]{x-1, y});
+                }
+
+                if(!getTile(x, y-1).hasMine() || getTile(x, y-1).getDanger() == -1){
+                    surrounding_tiles.add(new int[]{x-1, y});
+                }
+
+                if(!getTile(x+1, y-1).hasMine() || getTile(x+1, y-1).getDanger() == -1){
+                    surrounding_tiles.add(new int[]{x-1, y});
+                }
+            }
         }
 
         board.get(y).get(x).setDanger(danger);
+        if(danger == 0 && !surrounding_tiles.isEmpty())
+            //System.out.println("This tile has 0 danger");
+            for(int[] coord : surrounding_tiles){
+                //String str = String.format("Checking tile (%d, %d)", coord[0], coord[1]);
+                //Util.debugMessage(TAG, str);
+                checkSurroundingTiles(coord[0], coord[1]);
+            }
     }
 
     public int getMineInt(int x, int y) {
@@ -165,7 +329,7 @@ public class Board {
     }
 
     boolean checkInputBounds(int x, int y) {
-        return x < 0 || y < 0 || x > _properties._width || y > _properties._height;
+        return x < 0 || y < 0 || x >= _properties._width || y >= _properties._height;
     }
 
 
