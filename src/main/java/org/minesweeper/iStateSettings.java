@@ -30,8 +30,8 @@ public class iStateSettings extends iState {
 
     @Override
     public void exit() {
-        String str = String.format(Util.settingsFormat, owner.properties._width,
-                owner.properties._height, owner.properties._mines);
+        String str = String.format(Util.settingsFormat, owner.properties.width,
+                owner.properties.height, owner.properties._mines);
         System.out.println(str);
     }
 

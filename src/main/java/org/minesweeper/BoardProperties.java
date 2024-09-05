@@ -1,11 +1,22 @@
 package org.minesweeper;
 
 public class BoardProperties {
-    public int _width, _height, _mines;
+    public int width, height, _mines;
+    private int _tilesLeft;
 
     public BoardProperties(int width, int height, int mines) {
-        _width = width;
-        _height = height;
+        this.width = width;
+        this.height = height;
         _mines = mines;
+        _tilesLeft = width * height - mines;
+    }
+
+    public void updateTilesLeft(){
+        _tilesLeft--;
+        if(_tilesLeft == 0){
+            GameData.gameOver = true;
+            GameData.isWin = true;
+        }
+
     }
 }

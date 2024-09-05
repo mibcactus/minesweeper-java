@@ -7,7 +7,7 @@ public class Game {
     BoardProperties properties;
 
     public Game() {
-        properties = new BoardProperties(10, 10, 14);
+        properties = new BoardProperties(10, 10, 15);
         stateMachine = new StateMachine();
         stateMachine.changeState(new iStateMenu(this));
     }

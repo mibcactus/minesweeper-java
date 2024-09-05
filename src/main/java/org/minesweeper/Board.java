@@ -19,19 +19,8 @@ public class Board {
 
 
     public int[] getSize() {
-        return new int[]{_properties._width, _properties._height};
+        return new int[]{_properties.width, _properties.height};
     }
-
-    /*
-    public void revealEntireBoard() {
-        for (int i = 0; i < board.size(); i++) { //height
-            for (int j = 0; j < board.get(i).size(); j++) { //width
-                checkSurroundingTiles(j, i);
-            }
-        }
-
-    }*/
-
 
     public Tile getTile(int x, int y){
         if(checkInputBounds(x, y))
@@ -41,7 +30,7 @@ public class Board {
 
     public void onFlag(int x, int y) {
         if (checkInputBounds(x, y)){
-            System.out.printf("Please enter co-ordinates up to (%d, %d)\n", _properties._width, _properties._height);
+            System.out.printf("Please enter co-ordinates up to (%d, %d)\n", _properties.width, _properties.height);
             return;
         }
 
@@ -90,7 +79,7 @@ public class Board {
             return;
         }*/
         ArrayList<int[]> surrounding_tiles = new ArrayList<>();
-        int h = _properties._height - 1, w = _properties._width - 1;
+        int h = _properties.height - 1, w = _properties.width - 1;
         int danger = 0;
         if (x > 0 && y > 0 && x < w && y < h) {
             for (int i = 0; i < 8; i++) {
@@ -264,6 +253,7 @@ public class Board {
         }
 
         board.get(y).get(x).setDanger(danger);
+        _properties.updateTilesLeft();
         if(danger == 0 && !surrounding_tiles.isEmpty())
             //System.out.println("This tile has 0 danger");
             for(int[] coord : surrounding_tiles){
@@ -298,10 +288,10 @@ public class Board {
     public void generateBoard() {
         Random random = new Random();
         int minesLeft = _properties._mines;
-        int tilesLeft = _properties._height * _properties._width;
-        for (int i = 0; i < _properties._height; i++) {
+        int tilesLeft = _properties.height * _properties.width;
+        for (int i = 0; i < _properties.height; i++) {
             ArrayList<Tile> row = new ArrayList<>();
-            for (int j = 0; j < _properties._width; j++) {
+            for (int j = 0; j < _properties.width; j++) {
                 String debug = String.format("Tile: %d, %d, %d tiles left", i, j, tilesLeft - 1);
                 boolean mine = false;
                 if (minesLeft > 0) {
@@ -328,7 +318,7 @@ public class Board {
     }
 
     boolean checkInputBounds(int x, int y) {
-        return x < 0 || y < 0 || x >= _properties._width || y >= _properties._height;
+        return x < 0 || y < 0 || x >= _properties.width || y >= _properties.height;
     }
 
 
